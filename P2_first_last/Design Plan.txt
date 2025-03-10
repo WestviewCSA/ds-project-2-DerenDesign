@@ -122,6 +122,9 @@ TODO after reading:
 
 1. Understand map-based input files
 2. Generate Test Cases in terms of maps
+3. Implement Stack Queue and Shortest for the map basedfiles 
+
+
 
 
 
