@@ -4,6 +4,7 @@ public class Tile {
 	private int row, col;
 	private char type;
 	private boolean visited;
+	private String output;
 	
 	public Tile(int row, int col, char type) {
 		super();
@@ -11,6 +12,7 @@ public class Tile {
 		this.col = col;
 		this.type = type;
 		this.visited = false;
+		this.output = output;
 	}
 	
 	
@@ -43,6 +45,10 @@ public class Tile {
 	}
 	public void setVisited(boolean visited) {
 		this.visited = visited;
+	}
+	
+	public String toString() {
+		return output;
 	}
 	
 	
