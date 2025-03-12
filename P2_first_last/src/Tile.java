@@ -3,13 +3,16 @@ public class Tile {
 
 	private int row, col;
 	private char type;
+	private boolean visited;
 	
 	public Tile(int row, int col, char type) {
 		super();
 		this.row = row;
 		this.col = col;
 		this.type = type;
+		this.visited = false;
 	}
+	
 	
 	public int getRow() {
 		return row;
@@ -30,9 +33,16 @@ public class Tile {
 	public char getType() {
 		return type;
 	}
-	
-	public void setType(char type) {
+
+	public void addPath(char type){
 		this.type = type;
+	}
+	
+	public boolean isVisited() {
+		return visited;
+	}
+	public void setVisited(boolean visited) {
+		this.visited = visited;
 	}
 	
 	
