@@ -1,16 +1,18 @@
 
 public class Map {
-	private Tile[][] map;
+	private Tile[][][] map;
 
 	private int rows;
 	private int cols;
+	private int rooms;
 
-	public Map(int rows, int cols) {
+	public Map(int rows, int cols, int rooms) {
 		//TODO Auto-generated constructor stub
 		this.rows = rows;
 		
 		this.cols = cols;
-		map = new Tile[rows][cols];
+		map = new Tile[rows][cols][rooms];
+		this.rooms = rooms;
 		
 		
 
@@ -30,7 +32,7 @@ public class Map {
 		// TODO Auto-generated method stub
 		//implement this method
 		if(row >= 0 && col >= 0) {
-			return map[row][col];
+			return map[row][col][rooms];
 		}
 		return null;
 	}
@@ -39,7 +41,7 @@ public class Map {
 		// TODO Auto-generated method stub
 		//implement this method
 		if(row >= 0 && col >= 0) {
-			 map[row][col] = t ;
+			 map[row][col][rooms] = t ;
 		}
 		
 	}
@@ -49,9 +51,12 @@ public class Map {
 		// TODO Auto-generated method stub
 		//implement this method
 		String maze = "";
-		for(int i = 0; i < rows; i++) {
-			for(int j = 0; j < cols; j++) {
-				maze += map[i][j].getType();
+		for(int i = 0; i < rooms; i++) {
+			for(int j = 0; j < rows; j++) {
+				for(int k = 0; k < cols; k++) {
+					maze += map[i][j][k].getType();
+				}
+				
 			}
 			maze += "\n";
 		}

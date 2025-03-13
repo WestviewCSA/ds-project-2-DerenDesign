@@ -20,11 +20,11 @@ public class p2 {
 		if(Incoordinate) {
 			readtextMap("TEST01");
 		}
-		if(!Incoordinate) {
-			readCoordinateMap("TEST07");
-		}
+//		if(!Incoordinate) {
+//			readCoordinateMap("TEST07");
+//		}
 		
-		firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
+		//firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
 
 
 		
@@ -70,32 +70,43 @@ public class p2 {
 			int numRows = s.nextInt();
 			int numCols = s.nextInt();
 			int numsRooms = s.nextInt();
-			currMap = new Map(numRows, numCols);
+			currMap = new Map(numRows, numCols, numsRooms);
+			//System.out.println(numCols);
 			
-			int rowIndex = 0;
-			String out = "";
+		
 			while(s.hasNextLine()) {
 				String row = s.nextLine();
 				
+				
+				
 				if(row.length() > 0) {
-					for(int i = 0; i < numCols && i < row.length(); i++ ) {
-						char el = row.charAt(i);
-						Tile obj = new Tile(rowIndex, i , el);
-						obj.toString();
+					for(int i = 0; i < numCols  && i < row.length(); i++ ) {
 						
-						currMap.setTile(rowIndex, i, obj);
+						
+						char el = row.charAt(i);
+						System.out.print(el);
+						Tile obj = new Tile(i, i, el);
+						//Tile obj = new Tile(i, i, el);
+						currMap.setTile(i, i, obj);
+						//currMap.setTile(i, i, obj);
+						
 						
 						
 						
 					}
+					
 				}
+				
 			}
+			//System.out.println(currMap.returnMaze());
 			
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
+		
+		
 	}
 	
 	private static void readCoordinateMap(String string) {
@@ -107,7 +118,7 @@ public class p2 {
 			int numRows = s.nextInt();
 			int numCols = s.nextInt();	
 			int numsRooms = s.nextInt();
-			currMap = new Map(numRows, numCols);
+			currMap = new Map(numRows, numCols, numsRooms);
 			
 			int rowIndex = 0;
 			
@@ -139,14 +150,14 @@ public class p2 {
 	public static void stackSolver() {
 		// TODO Auto-generated method stub
 
-		if(currMap == null) {
-			System.out.println("No map found");
-			System.exit(-1);
-		}
-
-		Tile start = null;
-		Tile goal = null;
-		Tile prev = null;
+//		if(currMap == null) {
+//			System.out.println("No map found");
+//			System.exit(-1);
+//		}
+//
+//		Tile start = null;
+//		Tile goal = null;
+//		Tile prev = null;
 
 //		for(int i = 0; i < currMap.getRows(); i++) {
 //			for(int j = 0; j < currMap.getCols(); j++) {
