@@ -9,6 +9,7 @@ TODO after reading:
 7. Implement the stack solution first (need to update Tile and Map for appropriate needs)
 8. Implemenmt the queue solution
 9. Implement ShortestPath
+10. Implement runtime calculations
 10. Have a way to get rid of extraneous characters outside the map
 11. write exceptions and acccount for specific errors --> from doc: " In the text-map format, you should check for:
 illegal characters
