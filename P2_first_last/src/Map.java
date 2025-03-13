@@ -40,8 +40,10 @@ public class Map {
 	public void setTile(int row, int col, Tile t) {
 		// TODO Auto-generated method stub
 		//implement this method
+		
+		
 		if(row >= 0 && col >= 0) {
-			 map[row][col][rooms] = t ;
+			 map[row][col][rooms-1] = t ;
 		}
 		
 	}
@@ -51,10 +53,11 @@ public class Map {
 		// TODO Auto-generated method stub
 		//implement this method
 		String maze = "";
-		for(int i = 0; i < rooms; i++) {
-			for(int j = 0; j < rows; j++) {
-				for(int k = 0; k < cols; k++) {
-					maze += map[i][j][k].getType();
+		for(int i = 0; i < map.length; i++) {
+			for(int j = 0; j < map[i].length; j++) {
+				for(int k = 0; k < map[i][j].length; k++) {
+					maze +=  map[i][j][k].getType();
+					
 				}
 				
 			}

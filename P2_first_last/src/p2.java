@@ -19,6 +19,7 @@ public class p2 {
 		
 		if(Incoordinate) {
 			readtextMap("TEST01");
+			System.out.println(currMap.returnMaze());
 		}
 //		if(!Incoordinate) {
 //			readCoordinateMap("TEST07");
@@ -73,32 +74,32 @@ public class p2 {
 			currMap = new Map(numRows, numCols, numsRooms);
 			//System.out.println(numCols);
 			
-		
+			int r = 0;
 			while(s.hasNextLine()) {
 				String row = s.nextLine();
 				
 				
 				
 				if(row.length() > 0) {
-					for(int i = 0; i < numCols  && i < row.length(); i++ ) {
-						
+					for(int i = 0; i < numCols && i < row.length(); i++ ) {
 						
 						char el = row.charAt(i);
-						System.out.print(el);
-						Tile obj = new Tile(i, i, el);
+						//System.out.print(i);
+						Tile obj = new Tile(r, i, el);
 						//Tile obj = new Tile(i, i, el);
-						currMap.setTile(i, i, obj);
-						//currMap.setTile(i, i, obj);
+						//currMap.setTile(numRows, numCols, obj);
+						currMap.setTile(r, i, obj);
 						
 						
 						
 						
 					}
+					r++;
 					
 				}
 				
 			}
-			//System.out.println(currMap.returnMaze());
+			
 			
 			
 		} catch (FileNotFoundException e) {
@@ -108,6 +109,7 @@ public class p2 {
 		
 		
 	}
+	
 	
 	private static void readCoordinateMap(String string) {
 		// TODO Auto-generated method stub
