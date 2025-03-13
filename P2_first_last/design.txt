@@ -1,0 +1,24 @@
+TODO after reading:
+
+1. Understand map-based input files
+2. Implement map based first then coordinated based
+3. Generate Test Cases in terms of maps 5 for each
+4. Set command line arguements --> booleans that help track what my program will run
+5  Confirm readability of each map
+6. Create 3 different methods for Queue, ShortestPath, and Stack
+7. Implement the stack solution first (need to update Tile and Map for appropriate needs)
+8. Implemenmt the queue solution
+9. Implement ShortestPath
+10. Have a way to get rid of extraneous characters outside the map
+11. write exceptions and acccount for specific errors --> from doc: " In the text-map format, you should check for:
+illegal characters
+maps that are incomplete (not enough characters/line or not enough lines)
+files that don't start with a pair of positive numbers as the first line
+In the coordinate-based format, you should check for:
+illegal characters in the first column
+coordinates that don't fit inside the maze
+files that don't start with a pair of positive numbers as the first line
+Not having exactly one of --Stack, --Queue, or --Opt switches set
+In all cases, throw the appropriate exception described in the Exceptions section. "
+12. Debug along the way usign syso statements and I will make sure functionality works on one part before moving on
+
