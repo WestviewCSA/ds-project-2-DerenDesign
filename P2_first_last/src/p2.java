@@ -9,11 +9,11 @@ public class p2 {
 	static boolean Queue = false;
 	static boolean Opt = false;
 	static boolean Time = false;
-	static boolean Incoordinate = true;
-	static boolean Outcoordinate = false;
+	static boolean Incoordinate = false;
+	static boolean Outcoordinate = true;
 	static boolean Help = false;
 	static Map currMap;
-	
+	static Map currMap2;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -21,9 +21,10 @@ public class p2 {
 			readtextMap("TEST01");
 			System.out.println(currMap.returnMaze());
 		}
-//		if(!Incoordinate) {
-//			readCoordinateMap("TEST07");
-//		}
+		if(!Incoordinate) {
+			readCoordinateMap("TEST07");
+			System.out.println(currMap2.returnMaze());
+			}
 		
 		//firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
 
@@ -117,29 +118,39 @@ public class p2 {
 			File file = new File(string);
 			Scanner s = new Scanner(file);
 			
-			int numRows = s.nextInt();
-			int numCols = s.nextInt();	
-			int numsRooms = s.nextInt();
-			currMap = new Map(numRows, numCols, numsRooms);
+			int xnumRows = s.nextInt();
+			int xnumCols = s.nextInt();
+			int xnumsRooms = s.nextInt();
+			currMap2 = new Map(xnumRows, xnumCols, xnumsRooms);
+			//System.out.println(numCols);
 			
-			int rowIndex = 0;
-			
+			int a = 0;
 			while(s.hasNextLine()) {
 				String row = s.nextLine();
-				char firstRow =row.charAt(0);
+				
+				
 				
 				if(row.length() > 0) {
-					for(int i = 0; i < numCols && i < row.length(); i++ ) {
+					for(int i = 0; i < xnumCols && i < row.length(); i++ ) {
+						
 						char el = row.charAt(i);
-						Tile obj = new Tile(rowIndex, i , el);
-						currMap.setTile(rowIndex, i, obj);
-						System.out.println(currMap);
+						//System.out.print(el);
+						//System.out.print(i);
+						Tile obj = new Tile(a, i, el);
+						//Tile obj = new Tile(i, i, el);
+						//currMap.setTile(numRows, numCols, obj);
+						currMap2.setTile(a, i, obj);
+						
 						
 						
 						
 					}
+					a++;
+					
 				}
+				
 			}
+			
 			
 			
 		} catch (FileNotFoundException e) {
