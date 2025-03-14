@@ -9,8 +9,8 @@ public class p2 {
 	static boolean Queue = false;
 	static boolean Opt = false;
 	static boolean Time = false;
-	static boolean Incoordinate = false;
-	static boolean Outcoordinate = true;
+	static boolean Incoordinate = true;
+	static boolean Outcoordinate = false;
 	static boolean Help = false;
 	static Map currMap;
 	static Map currMap2;
@@ -163,25 +163,29 @@ public class p2 {
 	public static void stackSolver() {
 		// TODO Auto-generated method stub
 
-//		if(currMap == null) {
-//			System.out.println("No map found");
-//			System.exit(-1);
-//		}
-//
-//		Tile start = null;
-//		Tile goal = null;
-//		Tile prev = null;
+		if(currMap == null) {
+			System.out.println("No map found");
+			System.exit(-1);
+		}
+		
+		Tile start = null;
+		Tile goal = null;
+		Tile prev = null;
 
-//		for(int i = 0; i < currMap.getRows(); i++) {
-//			for(int j = 0; j < currMap.getCols(); j++) {
-//			Tile tile = currMap.getTile(i, j);
-//			if(tile.getType() == 'W') {
-//				start = tile;
-//			}
-//			if(tile.getType() == '$') {
-//				goal = tile;
-//			}	
-//		}
+		for(int i = 0; i < currMap.getRows(); i++) {
+			for(int j = 0; j < currMap.getCols(); j++) {
+			Tile tile = currMap.getTile(i, j);
+			if(tile.getType() == 'W') {
+				start = tile;
+				System.out.println(start);
+		}
+			if(tile.getType() == '$') {
+			goal = tile;
+			System.out.println(goal);
+			}	
+		}
+			
+		}
 //
 //		Stack<Tile> stack = new Stack<Tile>();
 //		Stack<Tile> path = new Stack<Tile>();

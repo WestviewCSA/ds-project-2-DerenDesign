@@ -13,9 +13,6 @@ public class Map {
 		this.cols = cols;
 		map = new Tile[rows][cols][rooms];
 		this.rooms = rooms;
-		
-		
-
 	}
 
 	
