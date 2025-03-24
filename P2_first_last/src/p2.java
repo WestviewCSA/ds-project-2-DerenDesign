@@ -21,12 +21,12 @@ public class p2 {
 			readtextMap("TEST01");
 			System.out.println(currMap.returnMaze());
 		}
-		if(!Incoordinate) {
-			readCoordinateMap("TEST07");
-			System.out.println(currMap2.returnMaze());
-			}
+//		if(!Incoordinate) {
+//			readCoordinateMap("TEST07");
+//			System.out.println(currMap2.returnMaze());
+//			}
 		
-		//firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
+		firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
 
 
 		
@@ -37,6 +37,7 @@ public class p2 {
 	public static void firstChecks(boolean s, boolean q, boolean o, boolean t, boolean i, boolean ot, boolean h) {
 		if(s && !q && !o) {
 			stackSolver();
+			
 			
 		}
 		if(q && !s && !o) {
@@ -59,7 +60,7 @@ public class p2 {
 			System.exit(0);
 		}
 		
-			System.out.println("Invalid input");
+			
 			System.exit(-1);
 		
 	}
@@ -86,10 +87,10 @@ public class p2 {
 						
 						char el = row.charAt(i);
 						//System.out.print(i);
-						Tile obj = new Tile(r, i, el);
+						
 						//Tile obj = new Tile(i, i, el);
 						//currMap.setTile(numRows, numCols, obj);
-						currMap.setTile(r, i, obj);
+						currMap.setTile(r, i, new Tile(r, i, el));
 						
 						
 						
@@ -162,82 +163,40 @@ public class p2 {
 
 	public static void stackSolver() {
 		// TODO Auto-generated method stub
-
+		System.out.println("Here!");
 		if(currMap == null) {
 			System.out.println("No map found");
 			System.exit(-1);
 		}
 		
-		Tile start = null;
-		Tile goal = null;
-		Tile prev = null;
-
+		Stack queue = new Stack();
+		Stack visited = new Stack();
+		
 		for(int i = 0; i < currMap.getRows(); i++) {
-			for(int j = 0; j < currMap.getCols(); j++) {
-			Tile tile = currMap.getTile(i, j);
-			if(tile.getType() == 'W') {
-				start = tile;
-				System.out.println(start);
+			for(int a = 0; a < currMap.getCols(); a++) {
+				queue.add(currMap.getTile(i,a));
+				
+				if(currMap.getTile(i, a)  != null) {
+					visited.add(currMap.getTile(i, a));
+					
+				}
+				
+				
+			}
 		}
-			if(tile.getType() == '$') {
-			goal = tile;
-			System.out.println(goal);
-			}	
-		}
-			
-		}
-//
-//		Stack<Tile> stack = new Stack<Tile>();
-//		Stack<Tile> path = new Stack<Tile>();
-//		stack.push(start);
-//		path.push(start);
-		//start.addPath('+');
-		//start.setVisited(true);
-
-//		while(!stack.isEmpty()){
-//			Tile current = stack.pop();
-//			if(current.getType() == '$') {
-//				Tile currPath = current;
-//				while(currPath != null) {
-//					if(currPath.getType() != 'W' && currPath.getType() != '$') {
-//						currPath.addPath('+');
-//					}
-//					
-//				}
-//				for(int a = 0; i < currMap.getRows(); a++) {
-//					for(int d = 0; d < currMap.getCols(); d++) {
-//						Tile tile = currMap.getTile(a, d);
-//						if(tile.getType() == '+') {
-//							currPath = tile;
-//
-//						
-//
-//
-//					}
-//				}
-//
-//
-//
-//			}
-//			currMap.returnMaze();
-//
-//
-//
-//
-//
-//			
-//		}
+		
+		
+		
+		
+		
+		
+}
 
 
 
 
 		
-//	}
-//}
-
-
-		
-	}
+	
 
 	public static void queueSolver() {
 		// TODO Auto-generated method stub
