@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.Queue;
 
 public class p2 {
 	
@@ -18,7 +19,7 @@ public class p2 {
 		// TODO Auto-generated method stub
 		
 		if(Incoordinate) {
-			readtextMap("TEST01");
+			readtextMap("TEST02");
 			System.out.println(currMap.returnMaze());
 		}
 //		if(!Incoordinate) {
@@ -74,47 +75,28 @@ public class p2 {
 			int numCols = s.nextInt();
 			int numsRooms = s.nextInt();
 			currMap = new Map(numRows, numCols, numsRooms);
-			//System.out.println(numCols);
+			s.nextLine();
 			
 			int r = 0;
-			while(s.hasNextLine()) {
+			while(s.hasNextLine() && r < numRows) {
 				String row = s.nextLine();
-				
-				
 				
 				if(row.length() > 0) {
 					for(int i = 0; i < numCols && i < row.length(); i++ ) {
-						
 						char el = row.charAt(i);
-						//System.out.print(i);
-						
-						//Tile obj = new Tile(i, i, el);
-						//currMap.setTile(numRows, numCols, obj);
 						currMap.setTile(r, i, new Tile(r, i, el));
-						
-						
-						
-						
 					}
 					r++;
-					
 				}
-				
 			}
-			
-			
-			
+			s.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
-		
 	}
 	
 	
 	private static void readCoordinateMap(String string) {
-		// TODO Auto-generated method stub
 		try {
 			File file = new File(string);
 			Scanner s = new Scanner(file);
@@ -123,74 +105,123 @@ public class p2 {
 			int xnumCols = s.nextInt();
 			int xnumsRooms = s.nextInt();
 			currMap2 = new Map(xnumRows, xnumCols, xnumsRooms);
-			//System.out.println(numCols);
 			
 			int a = 0;
-			while(s.hasNextLine()) {
+			while(s.hasNextLine() && a < xnumRows) {
 				String row = s.nextLine();
-				
-				
 				
 				if(row.length() > 0) {
 					for(int i = 0; i < xnumCols && i < row.length(); i++ ) {
-						
 						char el = row.charAt(i);
-						//System.out.print(el);
-						//System.out.print(i);
 						Tile obj = new Tile(a, i, el);
-						//Tile obj = new Tile(i, i, el);
-						//currMap.setTile(numRows, numCols, obj);
 						currMap2.setTile(a, i, obj);
-						
-						
-						
-						
 					}
 					a++;
-					
 				}
-				
 			}
-			
-			
-			
+			s.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e);
 		}
-		
 	}
 
 	public static void stackSolver() {
-		// TODO Auto-generated method stub
-		System.out.println("Here!");
-		if(currMap == null) {
+		if (currMap == null) {
 			System.out.println("No map found");
 			System.exit(-1);
 		}
-		
-		Stack queue = new Stack();
-		Stack visited = new Stack();
-		
-		for(int i = 0; i < currMap.getRows(); i++) {
-			for(int a = 0; a < currMap.getCols(); a++) {
-				queue.add(currMap.getTile(i,a));
-				
-				if(currMap.getTile(i, a)  != null) {
-					visited.add(currMap.getTile(i, a));
-					
+		//save rows and cols
+		//save start and goal
+		int rows = currMap.getRows();
+		int cols = currMap.getCols();
+		Tile start = null;
+		Tile goal = null;
+		//find start and goal
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				Tile t = currMap.getTile(i, j, 0);
+				if (t != null) {
+					if (t.getType() == 'W') {
+						start = t;
+					} else if (t.getType() == '$') {
+						goal = t;
+					}
 				}
-				
-				
 			}
 		}
+	
 		
 		
 		
+		Stack<Tile> stack = new Stack<>(); // empty stack
+		Stack<Tile> solutionPath = new Stack<>(); // store answer
+		//push start to stack
+		stack.push(start);
+		start.setVisited(true);
+	
+		// Movement directions (North, East, South, West)
+		int[][] directions = {
+			{-1, 0}, // North
+			{0, 1},  // East
+			{1, 0},  // South
+			{0, -1}  // West
+		};
+		//keep track of if we found the goal
+		boolean found = false;
+	
+		while (!stack.isEmpty() && !found) {
+			Tile current = stack.peek(); // Peek the top of the stack (no pop)
+	
+			// if we found the $ stop looking
+			if (current == goal) {
+				found = true;
+				solutionPath.push(current);
+				break;
+			}
+			
+			boolean moved = false;
+	
+			// Explore NESW
+			for (int i = 0; i < directions.length; i++) {
+				int[] dir = directions[i];
+				//new row and col to check if we can move there or not
+				int newRow = current.getRow() + dir[0];
+				int newCol = current.getCol() + dir[1];
+				//check if we can move there or not
+				Tile neighbor = currMap.getTile(newRow, newCol, 0);
+				if (neighbor != null && (neighbor.getType() == '.' || neighbor == goal) && !neighbor.isVisited()) {
+					stack.push(neighbor); 
+					neighbor.setVisited(true);
+					moved = true;
+					solutionPath.push(current); 
+					break; 
+				}
+			}
+			//if we can't move pop the stack
+			if (!moved) {
+				stack.pop(); 
+				if (!solutionPath.isEmpty()) {
+					solutionPath.pop(); 
+				}
+			}
+		}
+	
 		
+	
+		// Print the maze with the path
+		while (!solutionPath.isEmpty()) {
+			Tile pathTile = solutionPath.pop();
+			if (pathTile != start && pathTile != goal) {
+				pathTile.addPath('+');
+			}
+		}
+	
 		
-		
-}
+		System.out.println(currMap.returnMaze());
+	}
+	
+	
+
 
 
 
@@ -200,8 +231,35 @@ public class p2 {
 
 	public static void queueSolver() {
 		// TODO Auto-generated method stub
-		
+		if (currMap == null) {
+			System.out.println("No map found");
+			System.exit(-1);
+		}
+	
+		int rows = currMap.getRows();
+		int cols = currMap.getCols();
+		Tile start = null;
+		Tile goal = null;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				Tile t = currMap.getTile(i, j, 0);
+				if (t != null) {
+					if (t.getType() == 'W') {
+						start = t;
+					} else if (t.getType() == '$') {
+						goal = t;
+					}
+				}
+			}
+		}
 	}
+
+	//start queue implementation
+	
+		
+		
+	
+	
 
 	public static void shortestPath() {
 		// TODO Auto-generated method stub

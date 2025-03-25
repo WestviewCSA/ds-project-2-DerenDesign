@@ -24,12 +24,13 @@ public class Map {
 	public int getCols() {
 		return cols;
 	}
+	public int getRooms() {
+		return rooms;
+	}
 
-	public Tile getTile(int row, int col) {
-		// TODO Auto-generated method stub
-		//implement this method
-		if(row >= 0 && col >= 0) {
-			return map[row][col][rooms];
+	public Tile getTile(int row, int col, int room) {
+		if(row >= 0 && col >= 0 && room >= 0 && row < rows && col < cols && room < rooms) {
+			return map[row][col][room];
 		}
 		return null;
 	}
@@ -39,7 +40,7 @@ public class Map {
 		//implement this method
 		
 		
-		if(row >= 0 && col >= 0) {
+		if(row >= 0 && col >= 0 && row < rows && col < cols) {
 			 map[row][col][rooms-1] = t ;
 		}
 		
