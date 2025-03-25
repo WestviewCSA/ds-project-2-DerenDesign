@@ -15,6 +15,7 @@ public class p2 {
 	static boolean Help = false;
 	static Map currMap;
 	static Map currMap2;
+	static double startTime;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -126,6 +127,9 @@ public class p2 {
 	}
 
 	public static void stackSolver() {
+
+		startTime = System.currentTimeMillis();
+
 		if (currMap == null) {
 			System.out.println("No map found");
 			System.exit(-1);
@@ -218,6 +222,8 @@ public class p2 {
 	
 		
 		System.out.println(currMap.returnMaze());
+
+		runTime();
 	}
 	
 	
@@ -231,6 +237,10 @@ public class p2 {
 
 	public static void queueSolver() {
 		// TODO Auto-generated method stub
+
+		startTime = System.currentTimeMillis();
+
+
 		if (currMap == null) {
 			System.out.println("No map found");
 			System.exit(-1);
@@ -253,7 +263,11 @@ public class p2 {
 			}
 		}
 
-		
+
+
+
+
+		runTime();
 	}
 
 	//start queue implementation
@@ -270,6 +284,15 @@ public class p2 {
 
 	public static void runTime() {
 		// TODO Auto-generated method stub
+
+		
+
+		
+
+		double endTime = System.currentTimeMillis();
+		double totalTime = (endTime - startTime) / 1000.0;
+		
+		System.out.println("Time: " + totalTime + " seconds");
 		
 	}
 
