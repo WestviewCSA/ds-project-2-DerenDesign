@@ -21,13 +21,13 @@ public class p2 {
 		// TODO Auto-generated method stub
 		//System.out.println("hi");
 		if(Incoordinate && !Help) {
-			readtextMap("TEST04");
+			readtextMap("TEST03");
 			System.out.println(currMap.returnMaze());
 		}
-//		if(!Incoordinate) {
-//			readCoordinateMap("TEST07");
-//			System.out.println(currMap2.returnMaze());
-//			}
+		if(!Incoordinate) {
+			readCoordinateMap("TEST07");
+			System.out.println(currMap2.returnMaze());
+			}
 		
 		firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
 
@@ -145,12 +145,13 @@ public class p2 {
 		int rows = currMap.getRows();
 		int cols = currMap.getCols();
 		int rooms = currMap.getRooms();
+		System.out.print(rooms);
 		Tile start = null;
 		Tile goal = null;
 		//find start and goal
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				Tile t = currMap.getTile(i, j, rooms);
+				Tile t = currMap.getTile(i, j, rooms-1);
 				if (t != null) {
 					if (t.getType() == 'W') {
 						start = t;
