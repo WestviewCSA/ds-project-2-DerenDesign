@@ -11,8 +11,8 @@ public class p2 {
 	static boolean Queue = false;
 	static boolean Opt = false;
 	static boolean Time = false;
-	static boolean Incoordinate = true;
-	static boolean Outcoordinate = false;
+	static boolean Incoordinate = false;
+	static boolean Outcoordinate = true;
 	static boolean Help = false;
 	static Map currMap;
 	static Map currMap2;
@@ -26,6 +26,8 @@ public class p2 {
 		}
 		if(!Incoordinate) {
 			readCoordinateMap("TEST07");
+			System.out.println("hi");
+			System.out.println(currMap2);
 			System.out.println(currMap2.returnMaze());
 			}
 		
@@ -132,26 +134,38 @@ public class p2 {
 
 	public static void stackSolver() {
 
+
+		System.out.println("got here");
 		if(Time) {
 			startTime = System.currentTimeMillis();
 		}
+		Map newMap;
 
-		if (currMap == null) {
+		if(Incoordinate){
+			newMap = currMap;
+		}
+		else if(Outcoordinate) {
+			newMap = currMap2;
+		}
+		else {
+			newMap = null;
+		}
+		if (newMap == null) {
 			System.out.println("No map found");
 			System.exit(-1);
 		}
 		//save rows and cols
 		//save start and goal
-		int rows = currMap.getRows();
-		int cols = currMap.getCols();
-		int rooms = currMap.getRooms();
+		int rows = newMap.getRows();
+		int cols = newMap.getCols();
+		int rooms = newMap.getRooms();
 		System.out.print(rooms);
 		Tile start = null;
 		Tile goal = null;
 		//find start and goal
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				Tile t = currMap.getTile(i, j, rooms-1);
+				Tile t = newMap.getTile(i, j, rooms-1);
 				if (t != null) {
 					if (t.getType() == 'W') {
 						start = t;
@@ -204,7 +218,7 @@ public class p2 {
 				int newRow = current.getRow() + dir[0];
 				int newCol = current.getCol() + dir[1];
 				//check if we can move there or not
-				Tile neighbor = currMap.getTile(newRow, newCol, 0);
+				Tile neighbor = newMap.getTile(newRow, newCol, 0);
 				if (neighbor != null && (neighbor.getType() == '.' || neighbor == goal) && !neighbor.isVisited()) {
 					stack.push(neighbor); 
 					neighbor.setVisited(true);
@@ -253,20 +267,28 @@ public class p2 {
 		if(Time) {
 			startTime = System.currentTimeMillis();
 		}
+		Map activeMap;
+		if (Incoordinate) {
+   			 activeMap = currMap;
+		} else if (Outcoordinate) {
+    		activeMap = currMap2;
+		} else {
+    		activeMap = null;
+		}
+		if (activeMap == null) {
 
-
-		if (currMap == null) {
+		if (activeMap == null) {
 			System.out.println("No map found");
 			System.exit(-1);
 		}
 	
-		int rows = currMap.getRows();
-		int cols = currMap.getCols();
+		int rows = activeMap.getRows();
+		int cols = activeMap.getCols();
 		Tile start = null;
 		Tile goal = null;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				Tile t = currMap.getTile(i, j, 0);
+				Tile t = activeMap.getTile(i, j, 0);
 				if (t != null) {
 					if (t.getType() == 'W') {
 						start = t;
@@ -312,7 +334,7 @@ public class p2 {
 				int newRow = current.getRow() + dir[0];
 				int newCol = current.getCol() + dir[1];
 				//check if we can move there or not
-				Tile neighbor = currMap.getTile(newRow, newCol, 0);
+				Tile neighbor = activeMap.getTile(newRow, newCol, 0);
 				if (neighbor != null && (neighbor.getType() == '.' || neighbor == goal) && !neighbor.isVisited()) {
 					queue.add(neighbor); 
 					neighbor.setVisited(true);
@@ -348,6 +370,7 @@ public class p2 {
 		System.out.println(currMap.returnMaze());
 		runTime();
 	}
+}
 
 	//start queue implementation
 	
