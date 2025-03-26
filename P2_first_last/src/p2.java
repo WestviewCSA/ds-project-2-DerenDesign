@@ -112,7 +112,7 @@ public class p2 {
 			int xnumCols = s.nextInt();
 			int xnumsRooms = s.nextInt();
 			currMap2 = new Map(xnumRows, xnumCols, xnumsRooms);
-			
+			System.out.println("hi");
 			int a = 0;
 			while(s.hasNextLine() && a < xnumRows) {
 				String row = s.nextLine();
