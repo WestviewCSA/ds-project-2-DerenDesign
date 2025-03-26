@@ -26,7 +26,7 @@ public class p2 {
 		}
 		if(!Incoordinate) {
 			readCoordinateMap("TEST07");
-			System.out.println("hi");
+			
 			System.out.println(currMap2);
 			System.out.println(currMap2.returnMaze());
 			}
@@ -163,6 +163,7 @@ public class p2 {
 		Tile start = null;
 		Tile goal = null;
 		//find start and goal
+		//only know where wolverine is need to use algo to find ending
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				Tile t = newMap.getTile(i, j, rooms-1);
