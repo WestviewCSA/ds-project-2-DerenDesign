@@ -11,8 +11,8 @@ public class p2 {
 	static boolean Queue = false;
 	static boolean Opt = false;
 	static boolean Time = false;
-	static boolean Incoordinate = false;
-	static boolean Outcoordinate = true;
+	static boolean Incoordinate = true;
+	static boolean Outcoordinate = false;
 	static boolean Help = false;
 	static Map currMap;
 	static Map currMap2;
@@ -21,11 +21,11 @@ public class p2 {
 		// TODO Auto-generated method stub
 		//System.out.println("hi");
 		if(Incoordinate && !Help) {
-			readtextMap("TEST03");
+			readtextMap("TEST01");
 			System.out.println(currMap.returnMaze());
 		}
 		if(!Incoordinate) {
-			readCoordinateMap("TEST07");
+			readCoordinateMap("TEST01");
 			
 			System.out.println(currMap2);
 			System.out.println(currMap2.returnMaze());
@@ -161,7 +161,6 @@ public class p2 {
 		int rooms = newMap.getRooms();
 		System.out.print(rooms);
 		Tile start = null;
-		Tile goal = null;
 		//find start and goal
 		//only know where wolverine is need to use algo to find ending
 		for (int i = 0; i < rows; i++) {
@@ -170,15 +169,13 @@ public class p2 {
 				if (t != null) {
 					if (t.getType() == 'W') {
 						start = t;
-					} else if (t.getType() == '$') {
-						goal = t;
-					}
+					} 
 				}
 			}
 		}
 		
 		System.out.println(start);
-		System.out.println(goal);
+		
 	
 		
 		
@@ -204,7 +201,7 @@ public class p2 {
 			Tile current = stack.peek(); // Peek the top of the stack (no pop)
 	
 			// if we found the $ stop looking
-			if (current == goal) {
+			if (current.getType() == '$') {
 				found = true;
 				solutionPath.push(current);
 				break;
@@ -220,7 +217,7 @@ public class p2 {
 				int newCol = current.getCol() + dir[1];
 				//check if we can move there or not
 				Tile neighbor = newMap.getTile(newRow, newCol, 0);
-				if (neighbor != null && (neighbor.getType() == '.' || neighbor == goal) && !neighbor.isVisited()) {
+				if (neighbor != null && (neighbor.getType() == '.' || neighbor.getType() == '$') && !neighbor.isVisited()) {
 					stack.push(neighbor); 
 					neighbor.setVisited(true);
 					moved = true;
@@ -242,7 +239,7 @@ public class p2 {
 		// Print the maze with the path
 		while (!solutionPath.isEmpty()) {
 			Tile pathTile = solutionPath.pop();
-			if (pathTile != start && pathTile != goal) {
+			if (pathTile.getType() != 'W' && pathTile.getType() != '$') {
 				pathTile.addPath('+');
 			}
 		}
