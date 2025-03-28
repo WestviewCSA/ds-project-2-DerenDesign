@@ -11,8 +11,8 @@ public class p2 {
 	static boolean Queue = false;
 	static boolean Opt = false;
 	static boolean Time = false;
-	static boolean Incoordinate = true;
-	static boolean Outcoordinate = false;
+	static boolean Incoordinate = false;
+	static boolean Outcoordinate = true;
 	static boolean Help = false;
 	static Map currMap;
 	static Map currMap2;
@@ -25,13 +25,13 @@ public class p2 {
 			System.out.println(currMap.returnMaze());
 		}
 		if(!Incoordinate) {
-			readCoordinateMap("TEST01");
+			readCoordinateMap("TEST07");
 			
 			System.out.println(currMap2);
 			System.out.println(currMap2.returnMaze());
 			}
 		
-		firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
+		//firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
 
 
 		
@@ -107,18 +107,28 @@ public class p2 {
 		try {
 			File file = new File(string);
 			Scanner s = new Scanner(file);
-			
-			int xnumRows = s.nextInt();
-			int xnumCols = s.nextInt();
-			int xnumsRooms = s.nextInt();
-			currMap2 = new Map(xnumRows, xnumCols, xnumsRooms);
-			System.out.println("hi");
-			int a = 0;
-			while(s.hasNextLine() && a < xnumRows) {
-				String row = s.nextLine();
-				
-				if(row.length() > 0) {
-					for(int i = 0; i < xnumCols && i < row.length(); i++ ) {
+
+			s.nextLine(); //skip header
+
+			int xnumCols = 7; // Sets cols to 4 for some reason?
+			int xnumsRooms = 1;
+
+			//Determine the number of rows
+			LinkedList<String> rows = new LinkedList<>();
+			while (s.hasNextLine()) {
+				rows.add(s.nextLine());
+			}
+			int xnumRows = rows.size();
+
+			currMap2 = new Map(xnumRows, xnumCols, xnumsRooms); // Create the map with row count
+
+			int a = 0; // Start from the first row
+			for (String row : rows) {
+				if (row.length() > 0) {
+					
+					
+
+					for (int i = 0; i < xnumCols; i++) {
 						char el = row.charAt(i);
 						Tile obj = new Tile(a, i, el);
 						currMap2.setTile(a, i, obj);
@@ -133,121 +143,117 @@ public class p2 {
 	}
 
 	public static void stackSolver() {
+	  
+	    if (Time) {
+	        startTime = System.currentTimeMillis();
+	    }
 
+	    Map activeMap;
 
-		System.out.println("got here");
-		if(Time) {
-			startTime = System.currentTimeMillis();
-		}
-		Map newMap;
+	    if (Incoordinate) {
+	        activeMap = currMap;
+	    } else if (Outcoordinate) {
+	        activeMap = currMap2;
+	    } else {
+	        activeMap = null;
+	    }
 
-		if(Incoordinate){
-			newMap = currMap;
-		}
-		else if(Outcoordinate) {
-			newMap = currMap2;
-		}
-		else {
-			newMap = null;
-		}
-		if (newMap == null) {
-			System.out.println("No map found");
-			System.exit(-1);
-		}
-		//save rows and cols
-		//save start and goal
-		int rows = newMap.getRows();
-		int cols = newMap.getCols();
-		int rooms = newMap.getRooms();
-		System.out.print(rooms);
-		Tile start = null;
-		//find start and goal
-		//only know where wolverine is need to use algo to find ending
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				Tile t = newMap.getTile(i, j, rooms-1);
-				if (t != null) {
-					if (t.getType() == 'W') {
-						start = t;
-					} 
-				}
-			}
-		}
-		
-		System.out.println(start);
-		
-	
-		
-		
-		
-		Stack<Tile> stack = new Stack<>(); // empty stack
-		Stack<Tile> solutionPath = new Stack<>(); // store answer
-		//push start to stack
-		stack.push(start);
-	
-		start.setVisited(true);
-	
-		// Movement directions (North, East, South, West)
-		int[][] directions = {
-			{-1, 0}, // North
-			{0, 1},  // East
-			{1, 0},  // South
-			{0, -1}  // West
-		};
-		//keep track of if we found the goal
-		boolean found = false;
-	
-		while (!stack.isEmpty() && !found) {
-			Tile current = stack.peek(); // Peek the top of the stack (no pop)
-	
-			// if we found the $ stop looking
-			if (current.getType() == '$') {
-				found = true;
-				solutionPath.push(current);
-				break;
-			}
-			
-			boolean moved = false;
-	
-			// Explore NESW
-			for (int i = 0; i < directions.length; i++) {
-				int[] dir = directions[i];
-				//new row and col to check if we can move there or not
-				int newRow = current.getRow() + dir[0];
-				int newCol = current.getCol() + dir[1];
-				//check if we can move there or not
-				Tile neighbor = newMap.getTile(newRow, newCol, 0);
-				if (neighbor != null && (neighbor.getType() == '.' || neighbor.getType() == '$') && !neighbor.isVisited()) {
-					stack.push(neighbor); 
-					neighbor.setVisited(true);
-					moved = true;
-					solutionPath.push(current); 
-					break; 
-				}
-			}
-			//if we can't move pop the stack
-			if (!moved) {
-				stack.pop(); 
-				if (!solutionPath.isEmpty()) {
-					solutionPath.pop(); 
-				}
-			}
-		}
-	
-		
-	
-		// Print the maze with the path
-		while (!solutionPath.isEmpty()) {
-			Tile pathTile = solutionPath.pop();
-			if (pathTile.getType() != 'W' && pathTile.getType() != '$') {
-				pathTile.addPath('+');
-			}
-		}
-	
-		
-		System.out.println(currMap.returnMaze());
+	    if (activeMap == null) {
+	        System.out.println("No map found");
+	        System.exit(-1);
+	    }
 
-		runTime();
+	    int rows = activeMap.getRows();
+	    int cols = activeMap.getCols();
+	    Tile start = null;
+	    Tile goal = null;
+
+	    
+	    for (int i = 0; i < rows; i++) {
+	        for (int j = 0; j < cols; j++) {
+	            Tile t = activeMap.getTile(i, j, 0);
+	            if (t != null) {
+	                if (t.getType() == 'W') {
+	                    start = t;
+	                } else if (t.getType() == '$') {
+	                    goal = t;
+	                }
+	            }
+	        }
+	    }
+
+	    if (start == null || goal == null) {
+	        System.out.println("Start or goal not found.");
+	        return;
+	    }
+
+	    Stack<Tile> stack = new Stack<>();
+	    Stack<Tile> solutionPath = new Stack<>();
+	    stack.push(start);
+	    start.setVisited(true);
+
+	    // Movement directions (North, East, South, West)
+	    int[][] directions = {
+	        {-1, 0}, // North
+	        {0, 1},  // East
+	        {1, 0},  // South
+	        {0, -1}  // West
+	    };
+
+	    boolean found = false;
+
+	    while (!stack.isEmpty() && !found) {
+	        Tile current = stack.peek();
+
+	        // If we found the goal, stop searching
+	        if (current == goal) {
+	            found = true;
+	            solutionPath.push(current);
+	            break;
+	        }
+
+	        boolean moved = false;
+
+	        // Explore NESW
+	        for (int[] dir : directions) {
+	            int newRow = current.getRow() + dir[0];
+	            int newCol = current.getCol() + dir[1];
+	            Tile neighbor = activeMap.getTile(newRow, newCol, 0);
+
+	            if (neighbor != null && (neighbor.getType() == '.' || neighbor.getType() == '$') && !neighbor.isVisited()) {
+	                stack.push(neighbor);
+	                neighbor.setVisited(true);
+	                solutionPath.push(current);
+	                moved = true;
+	                break;
+	            }
+	        }
+
+	        if (!moved) {
+	            stack.pop();
+	            if (!solutionPath.isEmpty()) {
+	                solutionPath.pop();
+	            }
+	        }
+	    }
+
+	    // Print the solution path
+	    if (found) {
+	        
+	        while (!solutionPath.isEmpty()) {
+	            Tile pathTile = solutionPath.pop();
+	            System.out.println("+ " + pathTile.getRow() + " " + pathTile.getCol() + " 0");
+	            if (pathTile.getType() != 'W' && pathTile.getType() != '$') {
+	                pathTile.addPath('+');
+	            }
+	        }
+	    } 
+	        
+
+	    // Print the solved map
+	    System.out.println(activeMap.returnMaze());
+
+	    runTime();
 	}
 	
 	
