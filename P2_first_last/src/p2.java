@@ -282,7 +282,20 @@ public class p2 {
 
 	    // Print the solved map
 	    System.out.println(activeMap.returnMaze());
-
+		if(!Incoordinate){
+		for (int i = 0; i < currMap2.getRows(); i++) {
+			for (int j = 0; j < currMap2.getCols(); j++) {
+				Tile t = currMap2.getTile(i, j, 0); 
+				if (t != null) {
+					char type = t.getType();
+					
+					if (type == '@' || type == 'W' || type == '+' || type == '$') {
+						System.out.println(type + " " + i + " " + j + " 0");
+					}
+				}
+			}
+		}
+	}
 	    runTime();
 	}
 	
