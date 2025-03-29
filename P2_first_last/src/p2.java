@@ -31,7 +31,7 @@ public class p2 {
 			
 			}
 		
-		//firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
+		firstChecks(Stack, Queue, Opt, Time, Incoordinate, Outcoordinate, Help);
 
 
 		
@@ -128,6 +128,12 @@ public class p2 {
             s.nextLine();
         }
 
+		for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                currMap2.setTile(i, j, new Tile(i, j, '.'));
+            }
+        }
+
         
         while (s.hasNextLine()) {
             String row = s.nextLine().trim();
@@ -142,12 +148,12 @@ public class p2 {
                     int r = Integer.parseInt(parts[1]); // Row index
                     int c = Integer.parseInt(parts[2]); // Column index
                     int level = Integer.parseInt(parts[3]); // Level index
-
                     System.out.println(element + " " + r + " " + c + " " + level);
 
                     // Create and set the tile (no changes to the row data)
-                    Tile newTile = new Tile(r, c, element.charAt(0)); 
+                    Tile newTile = new Tile(r, c, element.charAt(0));
                     currMap2.setTile(r, c, newTile);
+					
 				}
             }
         }
