@@ -7,25 +7,47 @@ import java.util.Queue;
 
 public class p2 {
 	
-	static boolean Stack = true;
-	static boolean Queue = false;
+	static boolean Stack = false;
+	static boolean Queue = true;
 	static boolean Opt = false; 
 	static boolean Time = false;
-	static boolean Incoordinate = false;
-	static boolean Outcoordinate = true;
+	static boolean Incoordinate = true;
+	static boolean Outcoordinate = false;
 	static boolean Help = false;
 	static Map currMap;
 	static Map currMap2;
 	static double startTime;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//System.out.println("hi");
+		
+		// if(args.equals("--Stack")) {
+		// 	Stack = true;
+		// }
+		// if(args.equals("--Queue")) {
+		// 	Queue = true;
+		// }
+		// if(args.equals("--Opt")) {
+		// 	Opt = true;
+		// }
+		// if(args.equals("--Time")) {
+		// 	Time = true;
+		// }
+		// if(args.equals("--Incoordinate")) {
+		// 	Incoordinate = true;
+		// }
+		// if(args.equals("--Outcoordinate")) {
+		// 	Outcoordinate = true;
+		// }
+		// if(args.equals("--Help")) {
+		// 	Help = true;
+		// }
+
 		if(Incoordinate && !Help) {
 			readtextMap("TEST01");
 			System.out.println(currMap.returnMaze());
 		}
 		if(!Incoordinate) {
-			readCoordinateMap("TEST07");
+			readCoordinateMap("TEST01");
 			
 			
 			
@@ -78,7 +100,7 @@ public class p2 {
 			File file = new File(filename);
 			Scanner s = new Scanner(file);
 			
-			int numRows = s.nextInt();
+			int numRows = s.nextInt() - 1;
 			int numCols = s.nextInt();
 			int numsRooms = s.nextInt();
 			currMap = new Map(numRows, numCols, numsRooms);
@@ -89,14 +111,25 @@ public class p2 {
 				String row = s.nextLine();
 				
 				if(row.length() > 0) {
-					for(int i = 0; i < numCols && i < row.length(); i++ ) {
+					
+					for(int i = 0; i < numCols && i < row.length() && r < numRows; i++ ) {
 						char el = row.charAt(i);
+						
 						currMap.setTile(r, i, new Tile(r, i, el));
+						//System.out.println(r);
+						
 					}
 					r++;
+					
+					
+					
+					
 				}
+				
+				
 			}
 			s.close();
+
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
@@ -112,9 +145,8 @@ public class p2 {
         Scanner s = new Scanner(file);
 
         if (!s.hasNextInt()) {
-            System.out.println("Invalid file format: Missing dimensions.");
-            s.close();
-            return;
+			throw new IllegalCommandLineInputsException();
+            
         }
 
         int numRows = s.nextInt(); // Read the number of rows
@@ -161,7 +193,7 @@ public class p2 {
 
      
 	} 
-    catch (Exception e) {
+     catch (Exception e) {
         
     }
 }
@@ -225,8 +257,8 @@ public class p2 {
 	    // Movement directions (North, East, South, West)
 	    int[][] directions = {
 	        {-1, 0}, // North
-	        {0, 1},  // East
-	        {1, 0},  // South
+			{1, 0},  // South
+			{0, 1},  // East
 	        {0, -1}  // West
 	    };
 
@@ -410,8 +442,21 @@ public class p2 {
 		}
 	
 		// Print the maze with the path
-		System.out.println(currMap.returnMaze());
-	
+		System.out.println(activeMap.returnMaze());
+		if(!Incoordinate){
+		for (int i = 0; i < currMap2.getRows(); i++) {
+			for (int j = 0; j < currMap2.getCols(); j++) {
+				Tile t = currMap2.getTile(i, j, 0); 
+				if (t != null) {
+					char type = t.getType();
+					
+					if (type == '@' || type == 'W' || type == '+' || type == '$') {
+						System.out.println(type + " " + i + " " + j + " 0");
+					}
+				}
+			}
+		}
+	}
 		runTime();
 	}
 	
