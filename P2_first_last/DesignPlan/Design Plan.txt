@@ -1,0 +1,141 @@
+
+Design Plan - P2
+Due: 3/12/25 11:59pm
+
+After reading the specs, start populating
+a list of things you think you might have to
+do to finish this project.
+
+1) Read the specs
+
+Create a maze with the different types of elements (open, walls,
+starting pos, diamond wv buck, open walkway)
+
+Wolverine will follow path of open walkable areas...
+
+This will need to be implemented using queue, stack, and finding the shortance distance
+
+QUEUE
+
+Enqueue starting location then dequeue the next location
+Keep track of all walkable tiles using enqueue in NSEW order
+
+See if any of the spaces hold coin --> if not repeat step 1 (recursion?)
+
+Remember to not enqueue any diagonal spots
+
+STACK
+
+Use push/pop instead of enqueue/dequeue implementation -- follow
+similar style
+
+OPTIMAL PATH
+
+Try to limit test cases -- thinking of using stacks bc their
+data iteration is faster
+
+INPUT
+
+2 types - text based and coordinated base
+
+first 3 nums X Y Z
+
+X = rows
+
+Y = col
+
+Z = # of mazes
+
+first 3 nums A B C (coordinate)
+
+A = map element
+ 
+B = row loc
+
+C = col location and last char
+
+OUTPUT 
+
+2 types
+
+1. Text-map format
+- Original setup w/out dimensions
+- The route the Wolv takes
+
+2. Coordinate Based Systen
+- location of the route in the order at which Wolv travels
+
+extra case if no way to solve --> "The Wolverine Store is closed."
+
+Scanner for input
+
+System.out for output
+
+TIME
+
+Measure time for search alg
+
+Report as Total Runtime : X seconds (X as double)
+
+Set the following boolean values
+
+--Stack (boolean) If this switch is set, use the stack-based approach
+--Queue (boolean) If this switch is set, use the queue-based approach
+--Opt (boolean) If this switch is set, find the shortest path
+--Time (boolean) If this switch is set, print the runtime of the program as described above.
+--Incoordinate (boolean) If this switch is set, the input file is in the coordinate-based system. If the switch is not set, the input file is in the text-map format.
+--Outcoordinate (boolean) If this switch is set, the output file is in the coordinate-based system. If the switch is not set, the output file is in the text-map format.
+--Help (boolean) If this switch is set, print out a brief, informative message on what your program is supposed to do, including what the switches are and what they do. Your program should then exit(0).
+
+if stack queue or opt are all not chosen or more than one, print out error message and System.exit(-1);
+
+ERRORS to check for
+
+illegal chars
+incomplete maps
+files w/out pos #s
+
+illegal chars in first col
+coordinates outside the maze
+files w/ pos numbers
+not having one stack queue or opt set
+
+ERRORS not to check for
+
+all extra char on lines below the last
+don't need to check if char and int are valid
+
+IllegalCommandLineInputsException
+Missing required command line input argument for program
+IllegalMapCharacterException
+Illegal characters in a map
+IncompleteMapException
+Incomplete map files such as not enough characters for a given row or too few rows
+IncorrectMapFormatException
+Incorrectly formatted maps such as not having a pair of positive numbers in the first line
+
+Add 5 test mazes
+
+
+
+TODO after reading:
+
+1. Understand map-based input files
+2. Generate Test Cases in terms of maps
+3. Implement the user input fir the map
+4. Create 3 different files for Queue, ShortestPath, and Stack
+5. Implement map based first then coordinated based
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,47 +7,47 @@ import java.util.Queue;
 
 public class p2 {
 	
-	static boolean Stack = false;
-	static boolean Queue = true;
-	static boolean Opt = false; 
-	static boolean Time = false;
-	static boolean Incoordinate = true;
-	static boolean Outcoordinate = false;
-	static boolean Help = false;
+	static boolean Stack;
+	static boolean Queue;
+	static boolean Opt ;
+	static boolean Time;
+	static boolean Incoordinate;
+	static boolean Outcoordinate;
+	static boolean Help ;
 	static Map currMap;
 	static Map currMap2;
 	static double startTime;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		// if(args.equals("--Stack")) {
-		// 	Stack = true;
-		// }
-		// if(args.equals("--Queue")) {
-		// 	Queue = true;
-		// }
-		// if(args.equals("--Opt")) {
-		// 	Opt = true;
-		// }
-		// if(args.equals("--Time")) {
-		// 	Time = true;
-		// }
-		// if(args.equals("--Incoordinate")) {
-		// 	Incoordinate = true;
-		// }
-		// if(args.equals("--Outcoordinate")) {
-		// 	Outcoordinate = true;
-		// }
-		// if(args.equals("--Help")) {
-		// 	Help = true;
-		// }
+		 if(args.equals("--Stack")) {
+		 	Stack = true;
+		 }
+		 if(args.equals("--Queue")) {
+		 	Queue = true;
+		 }
+		 if(args.equals("--Opt")) {
+		 	Opt = true;
+		 }
+		 if(args.equals("--Time")) {
+		 	Time = true;
+		 }
+		 if(args.equals("--Incoordinate")) {
+		 	Incoordinate = true;
+		 }
+		 if(args.equals("--Outcoordinate")) {
+		 	Outcoordinate = true;
+		 }
+		 if(args.equals("--Help")) {
+		 	Help = true;
+		 }
 
 		if(Incoordinate && !Help) {
 			readtextMap("TEST01");
 			System.out.println(currMap.returnMaze());
 		}
 		if(!Incoordinate) {
-			readCoordinateMap("TEST01");
+			readCoordinateMap("TEST07");
 			
 			
 			
@@ -99,7 +99,7 @@ public class p2 {
 		try {
 			File file = new File(filename);
 			Scanner s = new Scanner(file);
-			
+			//declare rows, cols, and rows
 			int numRows = s.nextInt() - 1;
 			int numCols = s.nextInt();
 			int numsRooms = s.nextInt();
@@ -171,17 +171,20 @@ public class p2 {
             String row = s.nextLine().trim();
             if (!row.isEmpty()) {
 
-                String[] parts = row.split("\\s+");
+                String[] parts = row.split("\\s");
 
               
                 if (parts.length >= 4) {
                     
+					
                     String element = parts[0];
                     int r = Integer.parseInt(parts[1]); // Row index
                     int c = Integer.parseInt(parts[2]); // Column index
                     int level = Integer.parseInt(parts[3]); // Level index
                     System.out.println(element + " " + r + " " + c + " " + level);
-
+					if(r < 0 || r >= numRows || c < 0 || c >= numCols) {
+						throw new IllegalMapCharacterException();
+					}
                     // Create and set the tile (no changes to the row data)
                     Tile newTile = new Tile(r, c, element.charAt(0));
                     currMap2.setTile(r, c, newTile);
@@ -221,8 +224,8 @@ public class p2 {
 	    }
 
 	    if (activeMap == null) {
-	        System.out.println("No map found");
-	        System.exit(-1);
+	        new IncompleteMapException();
+	       
 	    }
 
 	    int rows = activeMap.getRows();
@@ -245,8 +248,8 @@ public class p2 {
 	    }
 
 	    if (start == null || goal == null) {
-	        System.out.println("Start or goal not found.");
-	        return;
+	        new IncorrectMapFormatException();
+	        
 	    }
 
 	    Stack<Tile> stack = new Stack<>();
@@ -312,8 +315,11 @@ public class p2 {
 	    } 
 	        
 
-	    // Print the solved map
-	    System.out.println(activeMap.returnMaze());
+	    if(Incoordinate){
+			System.out.println(activeMap.returnMaze());
+		}
+		//System.out.println(activeMap.returnMaze());
+		System.out.println(" ");
 		if(!Incoordinate){
 		for (int i = 0; i < currMap2.getRows(); i++) {
 			for (int j = 0; j < currMap2.getCols(); j++) {
@@ -355,7 +361,7 @@ public class p2 {
 		}
 	
 		if (activeMap == null) {
-			System.out.println("No map found");
+			 new IncompleteMapException();
 			System.exit(-1);
 		}
 	
@@ -379,8 +385,8 @@ public class p2 {
 		}
 	
 		if (start == null || goal == null) {
-			System.out.println("Start or goal not found.");
-			return;
+			new IncorrectMapFormatException();
+			
 		}
 	
 		Queue<Tile> queue = new LinkedList<>();
@@ -391,8 +397,8 @@ public class p2 {
 		// Movement directions (North, East, South, West)
 		int[][] directions = {
 			{-1, 0}, // North
+			{1, 0},  // South 
 			{0, 1},  // East
-			{1, 0},  // South
 			{0, -1}  // West
 		};
 	
@@ -442,7 +448,11 @@ public class p2 {
 		}
 	
 		// Print the maze with the path
-		System.out.println(activeMap.returnMaze());
+		if(Incoordinate){
+			System.out.println(activeMap.returnMaze());
+		}
+		//System.out.println(activeMap.returnMaze());
+		System.out.println(" ");
 		if(!Incoordinate){
 		for (int i = 0; i < currMap2.getRows(); i++) {
 			for (int j = 0; j < currMap2.getCols(); j++) {
@@ -469,7 +479,7 @@ public class p2 {
 	
 
 	public static void shortestPath() {
-		// TODO Auto-generated method stub
+		//stack solver is the shortest path solver
 		stackSolver();
 	}
 
